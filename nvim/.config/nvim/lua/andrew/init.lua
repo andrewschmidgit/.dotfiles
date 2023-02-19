@@ -1,3 +1,4 @@
+require("andrew.harpoon")
 require("andrew.packer")
 require("andrew.remap")
 require("andrew.set")
