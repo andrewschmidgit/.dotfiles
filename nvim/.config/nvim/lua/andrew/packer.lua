@@ -26,14 +26,14 @@ return require('packer').startup(function(use)
     use 'nvim-lualine/lualine.nvim'
     use 'theprimeagen/harpoon'
     use 'tpope/vim-fugitive'
-    
+
     use {
         'nvim-treesitter/nvim-treesitter',
         run = function()
             local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
             ts_update()
         end,
-    } 
+    }
 
     use {
         'VonHeikemen/lsp-zero.nvim',
