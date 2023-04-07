@@ -26,10 +26,4 @@ export NVM_DIR="$HOME/.nvm"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-export PATH=$PATH:/Users/andrewschmid/.local/bin
-eval $(/opt/homebrew/bin/brew shellenv)
-
-# pnpm
-export PNPM_HOME="/Users/andrewschmid/Library/pnpm"
-export PATH="$PNPM_HOME:$PATH"
-# pnpm end
+export PATH=$PATH:~$USER/.local/bin
