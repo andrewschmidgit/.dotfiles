@@ -25,6 +25,7 @@ return require('packer').startup(function(use)
     use 'navarasu/onedark.nvim'
     use 'nvim-lualine/lualine.nvim'
     use 'theprimeagen/harpoon'
+    use 'theprimeagen/vim-be-good'
     use 'tpope/vim-fugitive'
     use 'tpope/vim-surround'
     use 'windwp/nvim-autopairs'
