@@ -28,7 +28,6 @@ return require('packer').startup(function(use)
     use 'theprimeagen/vim-be-good'
     use 'tpope/vim-fugitive'
     use 'tpope/vim-surround'
-    use 'windwp/nvim-autopairs'
 
     use {
         'nvim-treesitter/nvim-treesitter',
@@ -40,7 +39,7 @@ return require('packer').startup(function(use)
 
     use {
         'VonHeikemen/lsp-zero.nvim',
-        branch = 'v1.x',
+        branch = 'v2.x',
         requires = {
             -- LSP Support
             {'neovim/nvim-lspconfig'},             -- Required
