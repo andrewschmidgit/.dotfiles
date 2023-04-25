@@ -7,18 +7,6 @@ lsp.ensure_installed({
     'rust_analyzer',
 })
 
-local cmp = require('cmp')
-local cmp_select = { behavior = cmp.SelectBehavior.Select }
-local cmp_mappings = lsp.defaults.cmp_mappings({
-    ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-    ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-    ['<C-y>'] = cmp.mapping.confirm(cmp_select),
-})
-
-lsp.setup_nvim_cmp({
-    mapping = cmp_mappings
-})
-
 lsp.set_preferences({
     suggest_lsp_servers = false,
     sign_icons = {
@@ -43,17 +31,54 @@ lsp.on_attach(function(client, bufnr)
     vim.keymap.set('n', '[d', function() vim.diagnostic.goto_next() end, opts)
     vim.keymap.set('n', ']d', function() vim.diagnostic.goto_prev() end, opts)
     vim.keymap.set('i', '<C-h>', function() vim.lsp.buf.signature_help() end, opts)
-end)
 
-lsp.format_on_save({
-    servers = {
-        ['lua_ls'] = { 'lua' },
-        ['rust_analyzer'] = { 'rust' },
-    }
-})
+    local allow_format = { 'lua_ls', 'rust_analyzer' }
+    if vim.tbl_contains(allow_format, client.name) then
+        require('lsp-format').on_attach(client)
+    end
+end)
 
 lsp.setup()
 
 vim.diagnostic.config({
     virtual_text = true
 })
+
+local cmp = require('cmp')
+local pairs = require('nvim-autopairs')
+local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+local cmp_select = { behavior = cmp.SelectBehavior.Select }
+local cmp_mappings = lsp.defaults.cmp_mappings({
+    ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
+    ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
+    ['<C-y>'] = cmp.mapping.confirm(cmp_select),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<Enter>'] = cmp.mapping.confirm({ select = true }), -- Will confirm without having to select the item first
+})
+
+cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
+
+cmp.setup({
+    preselect = 'item',
+    mapping = cmp_mappings,
+    formatting = {
+        fields = { 'menu', 'abbr', 'kind' },
+        format = function(entry, item)
+            local menu_icon = {
+                nvim_lsp = 'λ',
+                luasnip = '⋗',
+                buffer = 'Ω',
+                path = '🖫',
+                nvim_lua = 'Π',
+            }
+
+            item.menu = menu_icon[entry.source.name]
+            return item
+        end
+    },
+    window = {
+        -- documentation = cmp.config.window.bordered()
+    }
+})
+
+pairs.remove_rule('(')
