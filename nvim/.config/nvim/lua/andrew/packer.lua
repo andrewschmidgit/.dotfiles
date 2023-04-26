@@ -23,7 +23,7 @@ return require('packer').startup(function(use)
     }
 
     use 'lukas-reineke/lsp-format.nvim'
-    use 'navarasu/onedark.nvim'
+    use { 'catppuccin/nvim', as = 'catppuccin' }
     use 'nvim-lualine/lualine.nvim'
     use 'theprimeagen/harpoon'
     use 'theprimeagen/vim-be-good'
