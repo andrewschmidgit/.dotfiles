@@ -5,7 +5,7 @@
 #################
 #!/usr/bin/env zsh
 DOTFILES=$HOME/.dotfiles
-STOW_FOLDERS="zsh,nvim,tmux"
+STOW_FOLDERS="alacritty,nvim,tmux,zsh"
 
 cd $DOTFILES
 for folder in $(echo $STOW_FOLDERS | sed "s/,/ /g")
