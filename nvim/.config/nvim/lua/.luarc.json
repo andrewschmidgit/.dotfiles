@@ -25,5 +25,6 @@
         "/home/andrew/.local/share/nvim/lazy/fidget.nvim/lua",
         "/home/andrew/.dotfiles/nvim/.config/nvim/lua",
         "${3rd}/luv/library"
-    ]
+    ],
+    "workspace.checkThirdParty": false
 }

@@ -1,21 +1,32 @@
 return {
 	{
-		-- Theme
 		"catppuccin/nvim",
 		name = "catppuccin",
 		priority = 1000,
-		config = function()
-			vim.cmd.colorscheme("catppuccin")
-		end,
+		lazy = false,
+        config = function()
+            vim.cmd.colorscheme("catppuccin")
+        end
 	},
 	"nvim-lualine/lualine.nvim",
-	"theprimeagen/vim-be-good",
+    "theprimeagen/vim-be-good",
+    { 'echasnovski/mini.nvim', version = false },
 	{
 		"tpope/vim-fugitive",
 		keys = {
 			{ "<leader>gs", "<cmd>Git<enter>" },
 		},
-	},
+    },
+    {
+        'nvim-telescope/telescope.nvim',
+        dependencies = {
+            'nvim-lua/plenary.nvim'
+        },
+        keys = {
+            { '<leader>pf', '<cmd>Telescope find_files<enter>' },
+            { '<C-p>',      '<cmd>Telescope git_files<enter>' },
+        }
+    },
 	{
 		"nvim-treesitter/nvim-treesitter",
 		dependencies = {
@@ -31,7 +42,7 @@ return {
 			{
 				"williamboman/mason.nvim",
 				build = function()
-					pcall(vim.cmd, "MasonUpdate")
+					vim.cmd.MasonUpdate()
 				end,
 			},
 			"williamboman/mason-lspconfig.nvim",
@@ -104,17 +115,5 @@ return {
 				}),
 			})
 		end,
-	},
-	{
-		"nvim-neo-tree/neo-tree.nvim",
-		tag = "2.59",
-		keys = {
-			{ "<leader>pt", "<cmd>Neotree toggle<enter>" },
-		},
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-			"MunifTanjim/nui.nvim",
-		},
 	},
 }
