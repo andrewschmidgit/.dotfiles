@@ -11,7 +11,14 @@ return {
 	"nvim-lualine/lualine.nvim",
     "theprimeagen/vim-be-good",
     { 'echasnovski/mini.nvim', version = false },
-	{
+    {
+        'echasnovski/mini.pairs',
+        version = false,
+        config = function()
+            require('mini.pairs').setup({})
+        end
+    },
+    {
 		"tpope/vim-fugitive",
 		keys = {
 			{ "<leader>gs", "<cmd>Git<enter>" },
