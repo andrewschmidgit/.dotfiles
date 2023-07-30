@@ -36,3 +36,6 @@ nnoremap N Nzzzv
 
 " Leaves cursor where it was before joining line below
 nnoremap J mzJ`z
+
+" Fixes register overwriting
+xnoremap p "_dP
