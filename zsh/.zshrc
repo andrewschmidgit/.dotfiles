@@ -34,7 +34,7 @@ alias vi="nvim"
 
 # Git
 alias g="git"
-alias gc="git commit -m"
+alias gc="git commit"
 alias gs="git status"
 alias ga="git add ."
 
