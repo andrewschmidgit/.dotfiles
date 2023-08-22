@@ -38,6 +38,22 @@ alias gc="git commit"
 alias gs="git status"
 alias ga="git add ."
 
+###########################
+# Functions ###############
+###########################
+toggle_audio() {
+    default_device="$(pactl get-default-sink)"
+
+    new_device="hdmi"
+    case "$default_device" in
+	*hdmi*) new_device="pro" ;;
+    	*) echo "leaving as hdmi" ;;
+    esac
+
+    new_sink="$(pactl list sinks short | grep -i $new_device | awk '{print $2}')"
+
+    pactl set-default-sink $new_sink
+}
 
 ###########################
 # Code ####################
@@ -56,3 +72,6 @@ export PATH=$PATH:/usr/local/go/bin
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# Turso
+export PATH="/home/andrew/.turso:$PATH"
