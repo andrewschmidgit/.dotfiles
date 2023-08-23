@@ -94,6 +94,14 @@ require('lazy').setup({
 
   -- Rust tools
   { 'simrat39/rust-tools.nvim' },
+
+  -- Display function signature automagically
+  { 
+    'ray-x/lsp_signature.nvim',
+    event = 'VeryLazy',
+    opts = {},
+    config = function(_, opts) require('lsp_signature').setup(opts) end
+  },
   {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
@@ -292,10 +300,12 @@ vim.keymap.set('n', 'N', 'Nzzzv')
 
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
+local scope_acts = require('telescope.actions');
 require('telescope').setup {
   defaults = {
     mappings = {
       i = {
+        ['<esc>'] = scope_acts.close,
         ['<C-u>'] = false,
         ['<C-d>'] = false,
       },
@@ -500,6 +510,9 @@ require('luasnip.loaders.from_vscode').lazy_load()
 luasnip.config.setup {}
 
 cmp.setup {
+  completion = {
+    keyword_length = 1
+  },
   snippet = {
     expand = function(args)
       luasnip.lsp_expand(args.body)
@@ -507,6 +520,7 @@ cmp.setup {
   },
   mapping = cmp.mapping.preset.insert {
     ['<C-n>'] = cmp.mapping.select_next_item(),
+    ['<C-s>'] = vim.lsp.buf.signature_help(),
     ['<C-p>'] = cmp.mapping.select_prev_item(),
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
@@ -532,10 +546,12 @@ cmp.setup {
   },
   sources = {
     { name = 'nvim_lsp' },
+    { name = 'nvim_lsp_signature_help' },
     { name = 'luasnip' },
   },
 }
 
+require('lsp_signature').setup { }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
