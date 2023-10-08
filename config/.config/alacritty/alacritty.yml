@@ -1,7 +1,5 @@
 env:
   TERM: xterm-256color
-import:
-  - ~/.config/alacritty/catppuccin/catppuccin-mocha.yml
 font:
   size: 18
   normal:
@@ -18,3 +16,4 @@ font:
     style: Regular
 window:
   opacity: 0.8
+  dynamic_padding: true
