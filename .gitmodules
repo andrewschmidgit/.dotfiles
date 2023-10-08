@@ -1,0 +1,12 @@
+[submodule "config/.config/leftwm/themes/Catppuccin"]
+	path = config/.config/leftwm/themes/Catppuccin
+	url = https://github.com/di-effe/catppuccin.git
+[submodule "config/.config/tmux/plugins/tmux"]
+	path = config/.config/tmux/plugins/tmux
+	url = https://git::@github.com/catppuccin/tmux
+[submodule "config/.config/tmux/plugins/tmux-sensible"]
+	path = config/.config/tmux/plugins/tmux-sensible
+	url = https://git::@github.com/tmux-plugins/tmux-sensible
+[submodule "config/.config/tmux/plugins/tpm"]
+	path = config/.config/tmux/plugins/tpm
+	url = https://git::@github.com/tmux-plugins/tpm
