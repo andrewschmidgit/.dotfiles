@@ -12,9 +12,6 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 export PATH=$PATH:~$USER/.local/bin
 
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -25,6 +22,12 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export PATH=$PATH:~/.local/scripts
 
 source "$HOME/.aliasrc"
+
+
+###########################
+# Keybinds ################
+###########################
+bindkey -s ^f "tmux-sessionizer\n"
 
 ###########################
 # Code ####################
