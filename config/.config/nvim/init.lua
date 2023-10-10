@@ -3,7 +3,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- set default tab stuff
-vim.o.softtabstop = true
+vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 
 -- Install package manager
@@ -94,9 +94,17 @@ require('lazy').setup({
         changedelete = { text = '~' },
       },
       on_attach = function(bufnr)
-        vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk, { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
-        vim.keymap.set('n', '<leader>gn', require('gitsigns').next_hunk, { buffer = bufnr, desc = '[G]o to [N]ext Hunk' })
-        vim.keymap.set('n', '<leader>ph', require('gitsigns').preview_hunk, { buffer = bufnr, desc = '[P]review [H]unk' })
+        local gs = package.loaded.gitsigns
+        vim.keymap.set('n', '<leader>gp', gs.prev_hunk, { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
+        vim.keymap.set('n', '<leader>gn', gs.next_hunk, { buffer = bufnr, desc = '[G]o to [N]ext Hunk' })
+
+        vim.keymap.set('n', '<leader>hp', gs.preview_hunk, { buffer = bufnr, desc = '[H]unk [P]review' })
+        vim.keymap.set('n', '<leader>hr', gs.reset_hunk, { buffer = bufnr, desc = '[H]unk [R]eset' })
+        vim.keymap.set('n', '<leader>hs', gs.stage_hunk, { buffer = bufnr, desc = '[H]unk [S]tage' })
+        vim.keymap.set('n', '<leader>hu', gs.undo_stage_hunk, { buffer = bufnr, desc = '[H]unk Stage [U]ndo' })
+
+        vim.keymap.set('v', '<leader>hr', function() gs.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end, { buffer = bufnr, desc = '[H]unk [R]eset' })
+        vim.keymap.set('v', '<leader>hs', function() gs.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end, { buffer = bufnr, desc = '[H]unk [S]tage' })
       end,
     },
   },
@@ -231,7 +239,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 -- Project View
 vim.keymap.set('n', '<leader>pv', function() vim.cmd('Ex') end, { desc = '[P]roject [V]iew' })
-vim.keymap.set('n', '<leader>t', function() vim.cmd.write() end)
+vim.keymap.set('n', '<leader>t', function() vim.cmd.write() end, { desc = '[T]save' })
 
 -- In visual mode, use J and K to move lines up and down
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
@@ -404,7 +412,6 @@ local servers = {
   -- clangd = {},
   -- gopls = {},
   -- pyright = {},
-  emmet_ls = {},
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
