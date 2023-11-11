@@ -1,45 +1,10 @@
---[[
-
-=====================================================================
-==================== READ THIS BEFORE CONTINUING ====================
-=====================================================================
-
-Kickstart.nvim is *not* a distribution.
-
-Kickstart.nvim is a template for your own configuration.
-  The goal is that you can read every line of code, top-to-bottom, understand
-  what your configuration is doing, and modify it to suit your needs.
-
-  Once you've done that, you should start exploring, configuring and tinkering to
-  explore Neovim!
-
-  If you don't know anything about Lua, I recommend taking some time to read through
-  a guide. One possible example:
-  - https://learnxinyminutes.com/docs/lua/
-
-  And then you can explore or search through `:help lua-guide`
-
-
-Kickstart Guide:
-
-I have left several `:help X` comments throughout the init.lua
-You should run that command and read that help section for more information.
-
-In addition, I have some `NOTE:` items throughout the file.
-These are for you, the reader to help understand what is happening. Feel free to delete
-them once you know what you're doing, but they should serve as a guide for when you
-are first encountering a few different constructs in your nvim config.
-
-I hope you enjoy your Neovim journey,
-- TJ
-
-P.S. You can delete this when you're done too. It's your config now :)
---]]
--- Set <space> as the leader key
--- See `:help mapleader`
---  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
+-- set leader to space
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+
+-- set default tab stuff
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
 
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
@@ -69,9 +34,6 @@ require('lazy').setup({
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
 
-  -- Detect tabstop and shiftwidth automatically
-  'tpope/vim-sleuth',
-
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
   {
@@ -91,6 +53,16 @@ require('lazy').setup({
     },
   },
 
+  -- Rust tools
+  { 'simrat39/rust-tools.nvim' },
+
+  -- Display function signature automagically
+  {
+    'ray-x/lsp_signature.nvim',
+    event = 'VeryLazy',
+    opts = {},
+    config = function(_, opts) require('lsp_signature').setup(opts) end
+  },
   {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
@@ -122,36 +94,40 @@ require('lazy').setup({
         changedelete = { text = '~' },
       },
       on_attach = function(bufnr)
-        vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk, { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
-        vim.keymap.set('n', '<leader>gn', require('gitsigns').next_hunk, { buffer = bufnr, desc = '[G]o to [N]ext Hunk' })
-        vim.keymap.set('n', '<leader>ph', require('gitsigns').preview_hunk, { buffer = bufnr, desc = '[P]review [H]unk' })
+        local gs = package.loaded.gitsigns
+        vim.keymap.set('n', '<leader>gp', gs.prev_hunk, { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
+        vim.keymap.set('n', '<leader>gn', gs.next_hunk, { buffer = bufnr, desc = '[G]o to [N]ext Hunk' })
+
+        vim.keymap.set('n', '<leader>hp', gs.preview_hunk, { buffer = bufnr, desc = '[H]unk [P]review' })
+        vim.keymap.set('n', '<leader>hr', gs.reset_hunk, { buffer = bufnr, desc = '[H]unk [R]eset' })
+        vim.keymap.set('n', '<leader>hs', gs.stage_hunk, { buffer = bufnr, desc = '[H]unk [S]tage' })
+        vim.keymap.set('n', '<leader>hu', gs.undo_stage_hunk, { buffer = bufnr, desc = '[H]unk Stage [U]ndo' })
+
+        vim.keymap.set('v', '<leader>hr', function() gs.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end, { buffer = bufnr, desc = '[H]unk [R]eset' })
+        vim.keymap.set('v', '<leader>hs', function() gs.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end, { buffer = bufnr, desc = '[H]unk [S]tage' })
       end,
     },
   },
-
   {
-    -- Theme inspired by Atom
     'catppuccin/nvim',
     priority = 1000,
     config = function()
       vim.cmd.colorscheme 'catppuccin'
     end,
   },
-
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
     -- See `:help lualine.txt`
     opts = {
       options = {
-        icons_enabled = false,
+        icons_enabled = true,
         theme = 'catppuccin',
         component_separators = '|',
         section_separators = '',
       },
     },
   },
-
   {
     -- Add indentation guides even on blank lines
     'lukas-reineke/indent-blankline.nvim',
@@ -174,8 +150,6 @@ require('lazy').setup({
   -- requirements installed.
   {
     'nvim-telescope/telescope-fzf-native.nvim',
-    -- NOTE: If you are having trouble with this installation,
-    --       refer to the README for telescope-fzf-native for more instructions.
     build = 'make',
     cond = function()
       return vim.fn.executable 'make' == 1
@@ -183,12 +157,17 @@ require('lazy').setup({
   },
 
   {
-    -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
     },
     build = ':TSUpdate',
+  },
+  {
+    'laytan/tailwind-sorter.nvim',
+    dependencies = {'nvim-treesitter/nvim-treesitter', 'nvim-lua/plenary.nvim'},
+    build = 'cd formatter && npm i && npm run build',
+    config = true,
   },
 
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
@@ -205,10 +184,6 @@ require('lazy').setup({
   { import = 'custom.plugins' },
 }, {})
 
--- [[ Setting options ]]
--- See `:help vim.o`
--- NOTE: You can change these options as you wish!
-
 -- Set highlight on search
 vim.o.hlsearch = false
 
@@ -217,9 +192,6 @@ vim.wo.number = true
 
 vim.opt.relativenumber = true
 vim.opt.scrolloff = 8
-
--- Enable mouse mode
--- vim.o.mouse = 'a'
 
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
@@ -273,7 +245,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 -- Project View
 vim.keymap.set('n', '<leader>pv', function() vim.cmd('Ex') end, { desc = '[P]roject [V]iew' })
-vim.keymap.set('n', '<leader>t', function() vim.cmd.write() end)
+vim.keymap.set('n', '<leader>t', function() vim.cmd.write() end, { desc = '[T]save' })
 
 -- In visual mode, use J and K to move lines up and down
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
@@ -290,10 +262,12 @@ vim.keymap.set('n', 'N', 'Nzzzv')
 
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
+local scope_acts = require('telescope.actions');
 require('telescope').setup {
   defaults = {
     mappings = {
       i = {
+        ['<esc>'] = scope_acts.close,
         ['<C-u>'] = false,
         ['<C-d>'] = false,
       },
@@ -325,12 +299,8 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
-  -- Add languages to be installed here that you want installed for treesitter
   ensure_installed = {  'lua', 'rust', 'typescript', 'svelte', 'html', 'css' },
-
-  -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = false,
-
   highlight = { enable = true },
   indent = { enable = true },
   incremental_selection = {
@@ -379,10 +349,10 @@ require('nvim-treesitter.configs').setup {
     swap = {
       enable = true,
       swap_next = {
-        ['<leader>a'] = '@parameter.inner',
+        ['<leader>cp'] = '@parameter.inner',
       },
       swap_previous = {
-        ['<leader>A'] = '@parameter.inner',
+        ['<leader>cP'] = '@parameter.inner',
       },
     },
   },
@@ -448,17 +418,20 @@ local servers = {
   -- clangd = {},
   -- gopls = {},
   -- pyright = {},
-  -- rust_analyzer = {},
-  -- tsserver = {},
-
-  emmet_ls = {},
-  prettierd = {},
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
     },
   },
+  rust_analyzer = {
+    ["rust-analyzer"] = {
+      checkOnSave = {
+        command = "clippy"
+      }
+    }
+  },
+  tsserver = {},
 }
 
 -- Setup neovim lua configuration
@@ -493,12 +466,16 @@ require('luasnip.loaders.from_vscode').lazy_load()
 luasnip.config.setup {}
 
 cmp.setup {
+  completion = {
+    keyword_length = 1
+  },
   snippet = {
     expand = function(args)
       luasnip.lsp_expand(args.body)
     end,
   },
   mapping = cmp.mapping.preset.insert {
+    ['<C-s>'] = vim.lsp.buf.signature_help(),
     ['<C-n>'] = cmp.mapping.select_next_item(),
     ['<C-p>'] = cmp.mapping.select_prev_item(),
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
@@ -511,8 +488,6 @@ cmp.setup {
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
-      elseif luasnip.expand_or_locally_jumpable() then
-        luasnip.expand_or_jump()
       else
         fallback()
       end
@@ -520,8 +495,6 @@ cmp.setup {
     ['<S-Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
-      elseif luasnip.locally_jumpable(-1) then
-        luasnip.jump(-1)
       else
         fallback()
       end
@@ -529,9 +502,12 @@ cmp.setup {
   },
   sources = {
     { name = 'nvim_lsp' },
+    { name = 'nvim_lsp_signature_help' },
     { name = 'luasnip' },
   },
 }
+
+require('lsp_signature').setup { }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
