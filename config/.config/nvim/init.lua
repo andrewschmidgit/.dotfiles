@@ -130,13 +130,7 @@ require('lazy').setup({
   },
   {
     -- Add indentation guides even on blank lines
-    'lukas-reineke/indent-blankline.nvim',
-    -- Enable `lukas-reineke/indent-blankline.nvim`
-    -- See `:help indent_blankline.txt`
-    opts = {
-      char = '┊',
-      show_trailing_blankline_indent = false,
-    },
+    'lukas-reineke/indent-blankline.nvim', main = 'ibl', opts = {},
   },
 
   -- "gc" to comment visual regions/lines
@@ -299,7 +293,14 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
-  ensure_installed = {  'lua', 'rust', 'typescript', 'svelte', 'html', 'css' },
+  ensure_installed = {
+    'lua',
+    'rust',
+    'typescript',
+    'svelte',
+    'html',
+    'css',
+  },
   auto_install = false,
   highlight = { enable = true },
   indent = { enable = true },
@@ -462,6 +463,7 @@ mason_lspconfig.setup_handlers {
 -- See `:help cmp`
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
+luasnip.filetype_extend("htmldjango", { "html" })
 require('luasnip.loaders.from_vscode').lazy_load()
 luasnip.config.setup {}
 
