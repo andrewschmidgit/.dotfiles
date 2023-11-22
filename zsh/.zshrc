@@ -49,6 +49,3 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 # Turso
 export PATH="/home/andrew/.turso:$PATH"
-
-# bun completions
-[ -s "/home/andrew/.bun/_bun" ] && source "/home/andrew/.bun/_bun"
