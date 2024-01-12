@@ -1,30 +1,30 @@
 #!/bin/sh
 
 if [ $# -eq 1 ]; then
-    selected=$1
+    path=$1
 else
-    selected=$(find ~/src ~/src/personal -maxdepth 2 -type d -name .git -exec dirname {} + -prune | fzf)
+    path=$(find ~/src ~/src/personal -maxdepth 2 -type d -name .git -exec dirname {} + -prune | fzf)
 fi
 
-if [ -z $selected ]; then
+if [ -z $path ]; then
     exit 0
 fi
 
-name="$(basename $selected)"
+name="$(basename $path)"
 tmux_pids="$(pgrep -xf tmux)"
 
 if [ -z "$TMUX" -a -z "$tmux_pids" ]; then
-    echo "creating new tmux session"
-    tmux new-session -A -c $selected -s $name
+    # -A: attaches if name already exists
+    # -c: uses a directory
+    # -s: gives the name for the session
+    tmux new-session -A -c $path -s $name
     exit 0
 fi
 
-session_exists=$(tmux has-session -t $name)
-echo "exists: $session_exists"
-if [ "$session_exists" ]; then
-	echo "switching"
-	tmux switch-client -t $name
+tmux has-session -t "$name"
+if [ $? -eq 0 ]; then
+    tmux switch-client -t $name
 else
-	echo "newing"
-	tmux new-session -d -c $selected -s $name
+    tmux new-session -d -c $path -s $name
+    tmux switch-client -t $name
 fi
