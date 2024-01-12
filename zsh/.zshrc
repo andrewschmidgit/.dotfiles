@@ -32,6 +32,10 @@ bindkey -s ^f "tmux-sessionizer\n"
 ###########################
 # Code ####################
 ###########################
+# .net
+DOTNET_CLI_TELEMETRY_OPTOUT=1
+FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT=1
+
 # node
 export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
