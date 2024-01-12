@@ -16,6 +16,9 @@ vim.o.undofile = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
+-- Break indent
+vim.o.breakindent = true
+
 -- Keep signcolumn on by default
 vim.wo.signcolumn = 'yes'
 
