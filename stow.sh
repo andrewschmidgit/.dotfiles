@@ -5,7 +5,7 @@
 #################
 #!/usr/bin/env zsh
 DOTFILES=$HOME/.dotfiles
-STOW_FOLDERS="config"
+STOW_FOLDERS="config,zsh"
 
 cd $DOTFILES
 for folder in $(echo $STOW_FOLDERS | sed "s/,/ /g")
