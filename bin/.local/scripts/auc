@@ -1,0 +1,20 @@
+#!/bin/env bash
+
+list_audio_sinks() {
+	echo "Outputs:"
+	pactl list sinks short | awk '{print $1, $2}'
+}
+
+set_audio_sink() {
+	sink_index=$1
+	pactl set-default-sink $sink_index
+	output=$(pactl info | grep -i 'default sink' | awk '{print $3}')
+	echo "Audio output set to: $output"
+}
+
+echo "Select a sink:"
+list_audio_sinks
+
+read -p "Which one? " selected_sink
+
+set_audio_sink $selected_sink
