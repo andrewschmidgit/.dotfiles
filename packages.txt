@@ -1,5 +1,0 @@
-git
-neovim
-zsh
-stow
-
