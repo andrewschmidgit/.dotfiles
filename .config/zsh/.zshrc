@@ -5,8 +5,11 @@ mac=$?
 [ $mac ] && export PATH="/opt/homebrew/bin:$PATH"
 
 export ZSH="$HOME/.oh-my-zsh"
+
 [ ! -d "$ZSH_CACHE_DIR" ] && mkdir -p "$ZSH_CACHE_DIR"
 export ZSH_COMPDUMP="$ZSH_CACHE_DIR/zcompdump-$HOST-$ZSH_VERSION"
+export HISTFILE="$ZSH_CACHE_DIR/history"
+
 export ZSH_THEME="agnoster"
 
 fpath+="$ZDOTDIR/.zfunc"
