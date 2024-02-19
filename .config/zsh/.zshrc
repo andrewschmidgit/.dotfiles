@@ -1,5 +1,5 @@
 test $(uname) = "Darwin"
-mac=$?
+mac=$([ $? -eq 0 ])
 
 # Path
 [ $mac ] && export PATH="/opt/homebrew/bin:$PATH"
