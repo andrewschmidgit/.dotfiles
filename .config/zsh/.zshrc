@@ -1,12 +1,5 @@
-test $(uname) = "Darwin"
-mac=$([ $? -eq 0 ])
-
-# Path
-[ $mac ] && export PATH="/opt/homebrew/bin:$PATH"
-
 export ZSH="$HOME/.oh-my-zsh"
 
-[ ! -d "$ZSH_CACHE_DIR" ] && mkdir -p "$ZSH_CACHE_DIR"
 export ZSH_COMPDUMP="$ZSH_CACHE_DIR/zcompdump-$HOST-$ZSH_VERSION"
 export HISTFILE="$ZSH_CACHE_DIR/history"
 
@@ -15,9 +8,6 @@ export ZSH_THEME="agnoster"
 fpath+="$ZDOTDIR/.zfunc"
 
 plugins=(git)
-
-# Mac specific
-[ $mac ] && FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 
 source $ZSH/oh-my-zsh.sh
 
@@ -35,6 +25,9 @@ alias gl="git log --graph --abbrev-commit"
 alias gp="git push"
 alias gpu="git pull"
 alias gs="git status"
+
+# offline
+alias offline="sudo unshare -n sudo -u $(whoami)"
 
 # completions
 # bun completions
