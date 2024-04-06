@@ -2,7 +2,6 @@ return {
 	'nvim-treesitter/nvim-treesitter',
 	version = false,
 	build = ':TSUpdate',
-	event = 'VeryLazy',
 	dependencies = {
 		'nvim-treesitter/nvim-treesitter-textobjects',
 	},
@@ -53,10 +52,7 @@ return {
 			},
 		},
 	},
-	-- Automatically add closing tags for HTML and JSX
-	{
-		'windwp/nvim-ts-autotag',
-		event = 'VeryLazy',
-		opts = {},
-	},
+	config = function(_, opts)
+		require('nvim-treesitter.configs').setup(opts)
+	end,
 }

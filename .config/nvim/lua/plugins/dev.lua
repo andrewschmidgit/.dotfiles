@@ -1,6 +1,11 @@
 return {
 	{ 'numToStr/Comment.nvim',    opts = {} },
 	{ 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
+	{ -- Automatically add closing tags for HTML and JSX
+		'windwp/nvim-ts-autotag',
+		event = 'VeryLazy',
+		opts = {},
+	},
 	{ -- Autocomplete
 		'hrsh7th/nvim-cmp',
 		dependencies = {

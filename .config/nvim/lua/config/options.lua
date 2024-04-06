@@ -42,4 +42,4 @@ vim.o.timeoutlen = 300
 -- make completeopt better
 vim.o.completeopt = "menuone,noselect"
 
-vim.o.termguicolors = true
+vim.opt.termguicolors = true

@@ -1,49 +1,62 @@
+-- return {
+-- 	"catppuccin/nvim",
+-- 	priority = 1000,
+-- 	--lazy = true,
+-- 	name = "catppuccin",
+-- 	opts = {
+-- 		integrations = {
+-- 			cmp = true,
+-- 			gitsigns = true,
+-- 			harpoon = true,
+-- 			indent_blankline = { enabled = true, },
+-- 			lsp_trouble = true,
+-- 			mason = true,
+-- 			markdown = true,
+-- 			mini = true,
+-- 			native_lsp = {
+-- 				enabled = true,
+-- 				underlines = {
+-- 					errors = { "undercurl" },
+-- 					hints = { "undercurl" },
+-- 					warnings = { "undercurl" },
+-- 					information = { "undercurl" },
+-- 				},
+-- 			},
+-- 			navic = { enabled = true, custom_bg = "lualine" },
+-- 			neotest = true,
+-- 			notify = true,
+-- 			telescope = true,
+-- 			treesitter = true,
+-- 			treesitter_context = true,
+-- 			which_key = true,
+-- 		},
+-- 	},
+-- 	config = function(_, opts)
+-- 		require('catppuccin').setup(opts)
+-- 		vim.cmd.colorscheme('catppuccin')
+-- 	end
+-- }
+
 return {
-	"catppuccin/nvim",
-	priority = 1000,
+	"neanias/everforest-nvim",
+	version = false,
 	lazy = false,
-	name = "catppuccin",
-	opts = {
-		integrations = {
-			aerial = true,
-			alpha = true,
-			cmp = true,
-			dashboard = true,
-			flash = true,
-			gitsigns = true,
-			harpoon = true,
-			headlines = true,
-			illuminate = true,
-			indent_blankline = { enabled = true },
-			leap = true,
-			lsp_trouble = true,
-			mason = true,
-			markdown = true,
-			mini = true,
-			native_lsp = {
-				enabled = true,
-				underlines = {
-					errors = { "undercurl" },
-					hints = { "undercurl" },
-					warnings = { "undercurl" },
-					information = { "undercurl" },
-				},
-			},
-			navic = { enabled = true, custom_bg = "lualine" },
-			neotest = true,
-			neotree = true,
-			noice = true,
-			notify = true,
-			semantic_tokens = true,
-			telescope = true,
-			treesitter = true,
-			treesitter_context = true,
-			which_key = true,
-		},
-	},
+	priority = 1000, -- make sure to load this before all the other start plugins
 	config = function()
-		require("catppuccin").setup({
+		require("everforest").setup({
+			background = 'hard',
+			contrast = 'high'
 		})
-		vim.cmd.colorscheme("catppuccin")
-	end
+		vim.cmd.colorscheme('everforest')
+	end,
 }
+
+-- return {
+-- 	'lmburns/kimbox',
+-- 	config = function()
+-- 		require('kimbox').setup({
+-- 			style = 'eerie'
+-- 		})
+-- 		vim.cmd.colorscheme 'kimbox'
+-- 	end
+-- }
