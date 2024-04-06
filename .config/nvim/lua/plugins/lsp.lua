@@ -1,36 +1,21 @@
-local on_attach = function(_, bufnr)
-	local nmap = function(keys, func, desc)
-		if desc then
-			desc = 'LSP: ' .. desc
-		end
-
-		vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
+local callback = function(event)
+	local map = function(keys, func, desc)
+		vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
 	end
 
-	nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-	nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+	map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+	map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
-	nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-	nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-	nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-	nmap('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
+	map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+	map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+	map('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
+	map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
 
-	nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-	nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+	map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
+	map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
-	nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-	nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
-
-	nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-	nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
-	nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
-	nmap('<leader>wl', function()
-		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-	end, '[W]orkspace [L]ist Folders')
-
-	vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-		vim.lsp.buf.format()
-	end, { desc = 'Format current buffer with LSP' })
+	map('K', vim.lsp.buf.hover, 'Hover Documentation')
+	map('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
 end
 
 return {
@@ -40,9 +25,11 @@ return {
 			'folke/neodev.nvim',
 			'williamboman/mason.nvim',
 			'williamboman/mason-lspconfig.nvim',
+			{ 'j-hui/fidget.nvim', opts = {} },
 		},
 		opts = {
 			servers = {
+				bashls = {},
 				html = {},
 				lua_ls = {
 					Lua = {
@@ -50,29 +37,33 @@ return {
 						telemetry = { enable = false },
 					},
 				},
+				marksman = {},
 				rust_analyzer = {},
+				svelte = {},
+				terraformls = {},
 				tsserver = {},
 			},
 		},
 		config = function(_, opts)
+			vim.api.nvim_create_autocmd('LspAttach', {
+				group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
+				callback = callback
+			})
+
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
 			capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
-			local function setup(server)
-				require('lspconfig')[server].setup({
-					capabilities = capabilities,
-					on_attach = on_attach,
-					settings = opts.servers[server_name],
-					filetypes = (opts.servers[server_name] or {}).filetypes,
-				})
-			end
-
-			local mlsp = require('mason-lspconfig')
-			mlsp.setup({
+			require('mason').setup()
+			require('mason-lspconfig').setup({
 				ensure_installed = vim.tbl_keys(opts.servers),
-				handlers = { setup }
+				handlers = {
+					function(server_name)
+						local server = opts.servers[server_name] or {}
+						server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+						require('lspconfig')[server_name].setup(server)
+					end
+				}
 			})
 		end,
-	},
-	{ 'williamboman/mason.nvim', config = true }
+	}
 }
