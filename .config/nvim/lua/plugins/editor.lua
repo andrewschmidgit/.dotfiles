@@ -1,4 +1,12 @@
 return {
+	{ -- hide keys
+		'laytan/cloak.nvim',
+		opts = {
+			patterns = {
+				{ file_pattern = '.env*', cloak_pattern = '=\".+\"' }
+			}
+		}
+	},
 	{ -- pending keybinds
 		'folke/which-key.nvim',
 		event = 'VeryLazy',

@@ -1,4 +1,6 @@
 return {
+	{ 'numToStr/Comment.nvim',    opts = {} },
+	{ 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 	{ -- Autocomplete
 		'hrsh7th/nvim-cmp',
 		dependencies = {
@@ -102,5 +104,5 @@ return {
 				javascript = { { "prettierd", "prettier" } },
 			},
 		},
-	}
+	},
 }
