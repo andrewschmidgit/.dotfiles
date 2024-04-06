@@ -13,13 +13,17 @@ source $ZSH/oh-my-zsh.sh
 
 export EDITOR=nvim
 
+# brew
+. $ZDOTDIR/brew.zsh
+
 # vim
 alias v="nvim"
+alias vim="nvim"
 
 # git
 alias g="git"
-alias ga="git add -p"
-alias gadd="git add"
+alias ga="git add"
+alias gadd="git add -p"
 alias gc="git commit"
 alias gl="git log --graph --abbrev-commit"
 alias gp="git push"
