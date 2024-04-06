@@ -17,7 +17,6 @@ local function find_git_root()
 	if vim.v.shell_error ~= 0 then
 		print 'Not a git repository. Searching on current working directory'
 		return cwd
-
 	end
 
 	return git_root
@@ -70,6 +69,7 @@ end
 return {
 	"nvim-telescope/telescope.nvim",
 	cmd = "Telescope",
+	tag = "0.1.6",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		{
@@ -93,7 +93,7 @@ return {
 			},
 		},
 	},
-	config = function(plugin, opts)
+	config = function(_, opts)
 		local ts = require('telescope')
 		ts.setup(opts)
 		ts.load_extension('fzf')
