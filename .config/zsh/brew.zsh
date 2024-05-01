@@ -1,5 +1,5 @@
 if [ $(uname) != 'Darwin' ]; then
-	exit 0
+	return
 fi
 
 export PATH="/opt/homebrew/bin:$PATH"
