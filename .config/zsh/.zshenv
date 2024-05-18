@@ -5,6 +5,9 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export ZSH_CACHE_DIR="$XDG_CACHE_HOME/zsh"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
+# bin
+export PATH="$HOME/.local/bin:$PATH"
+
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
