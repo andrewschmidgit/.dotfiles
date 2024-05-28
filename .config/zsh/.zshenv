@@ -16,8 +16,7 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 . "$HOME/.cargo/env"
 
 # dotnet
-DOTNET="$HOME/.dotnet/tools"
-[ -d $DOTNET ] && PATH+=$DOTNET
+export PATH="$HOME/.dotnet/tools:$PATH"
 
 # node
 export NVM_DIR="$HOME/.config/nvm"
