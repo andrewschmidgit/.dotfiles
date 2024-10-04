@@ -16,7 +16,13 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 . "$HOME/.cargo/env"
 
 # dotnet
-export PATH="$HOME/.dotnet/tools:$PATH"
+DOTNET_ROOT=/usr/lib/dotnet
+if [ -d "$DOTNET_ROOT" ]; then
+	export DOTNET_CLI_TELEMETRY_OPTOUT=1
+	export DOTNET_ROOT
+	export DOTNET_INSTALL=$HOME/.dotnet
+	export PATH=$DOTNET_INSTALL:$DOTNET_INSTALL/tools:$PATH
+fi
 
 # node
 export NVM_DIR="$HOME/.config/nvm"
