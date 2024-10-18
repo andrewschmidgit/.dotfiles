@@ -41,7 +41,6 @@ return {
 				rust_analyzer = {},
 				svelte = {},
 				terraformls = {},
-				tsserver = {},
 			},
 		},
 		config = function(_, opts)

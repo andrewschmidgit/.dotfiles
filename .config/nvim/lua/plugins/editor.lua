@@ -14,31 +14,32 @@ return {
 	{ -- hide keys
 		'laytan/cloak.nvim',
 		opts = {
+			cloak_telescope = true,
 			patterns = {
 				{ file_pattern = '.env*', cloak_pattern = '=\".+\"' }
 			}
+		},
+		keys = {
+			{ "<leader>te", "<cmd>CloakToggle<cr>", desc = "Toggle Env" }
 		}
 	},
 	{ -- pending keybinds
 		'folke/which-key.nvim',
 		event = 'VeryLazy',
 		opts = {
-			defaults = {
-				mode = { 'n', 'v' },
-				['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-				['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-				['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
-				['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-				['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-				['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
-				['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-			},
+			spec = {
+				{
+					mode = { "n", "v" },
+					{ "<leader>c", group = 'code' },
+					{ "<leader>d", desc = 'document' },
+					{ "<leader>g", desc = 'git' },
+					{ "<leader>r", desc = 'rename' },
+					{ "<leader>s", desc = 'search' },
+					{ "<leader>t", desc = 'toggle' },
+					{ "<leader>w", desc = 'workspace' },
+				}
+			}
 		},
-		config = function(_, opts)
-			local wk = require('which-key')
-			wk.setup(opts)
-			wk.register(opts.defaults)
-		end,
 	},
 
 	{ -- git signs
