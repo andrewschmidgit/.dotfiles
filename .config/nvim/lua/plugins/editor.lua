@@ -28,15 +28,39 @@ return {
 		event = 'VeryLazy',
 		opts = {
 			spec = {
+				{ ']h', function() package.loaded.gitsigns.next_hunk() end, mode = 'n', desc = 'Next Hunk' },
+				{ '[h', function() package.loaded.gitsigns.prev_hunk() end, mode = 'n', desc = 'Previous Hunk' },
 				{
-					mode = { "n", "v" },
-					{ "<leader>c", group = 'code' },
-					{ "<leader>d", desc = 'document' },
-					{ "<leader>g", desc = 'git' },
-					{ "<leader>r", desc = 'rename' },
-					{ "<leader>s", desc = 'search' },
-					{ "<leader>t", desc = 'toggle' },
-					{ "<leader>w", desc = 'workspace' },
+					mode = { 'n', 'v' },
+					{ '<leader>c', group = 'code' },
+					{ '<leader>d', group = 'document' },
+					{
+						'<leader>g',
+						group = 'git',
+						expand = function ()
+							local gs = package.loaded.gitsigns
+							return {
+								{ 's', gs.stage_hunk, mode = 'n', desc = 'Stage Hunk' },
+								{ 'r', gs.reset_hunk, mode = 'n', desc = 'Reset Hunk' },
+								{ 's', function() gs.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end, mode = 'v', desc = 'Stage Hunk' },
+								{ 'r', function() gs.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end, mode = 'v', desc = 'Stage Hunk' },
+								{ 'u', gs.undo_stage_hunk, desc = 'Undo Stage Hunk' },
+								{ 'p', gs.preview_hunk, desc = 'Preview Hunk' },
+
+								{ 'S', gs.stage_buffer, mode = 'n', desc = 'Stage Buffer' },
+								{ 'R', gs.reset_buffer, mode = 'n', desc = 'Reset Buffer' },
+
+								{ 'b', gs.toggle_current_line_blame, mode = 'n', desc = 'Toggle Current Line Blame' },
+
+								{ 'd', gs.diffthis, mode = 'n', desc = 'Diff This' },
+								{ 'D', function() gs.diffthis('~') end, mode = 'n', desc = 'Diff This' },
+							}
+						end
+					},
+					{ '<leader>r', group = 'rename' },
+					{ '<leader>s', group = 'search' },
+					{ '<leader>t', group = 'toggle' },
+					{ '<leader>w', group = 'workspace' },
 				}
 			}
 		},
@@ -51,25 +75,7 @@ return {
 				delete = { text = '_' },
 				topdelete = { text = '‾' },
 				changedelete = { text = '~' },
-			},
-			on_attach = function(buffer)
-				local gs = package.loaded.gitsigns
-				local function map(mode, l, r, desc)
-					vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
-				end
-
-				map("n", "]h", gs.next_hunk, "Next Hunk")
-				map("n", "[h", gs.prev_hunk, "Prev Hunk")
-				map({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
-				map({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
-				map("n", "<leader>ghu", gs.undo_stage_hunk, "Undo Stage Hunk")
-				map("n", "<leader>gs", gs.stage_buffer, "Stage Buffer")
-				map("n", "<leader>gr", gs.reset_buffer, "Reset Buffer")
-				map("n", "<leader>gp", gs.preview_hunk_inline, "Preview Hunk Inline")
-				map("n", "<leader>gb", function() gs.blame_line({ full = true }) end, "Blame Line")
-				map("n", "<leader>gd", gs.diffthis, "Diff This")
-				map("n", "<leader>ghD", function() gs.diffthis("~") end, "Diff This ~")
-			end
+			}
 		},
 	},
 }
