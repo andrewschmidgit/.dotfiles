@@ -37,23 +37,23 @@ return {
 					{
 						'<leader>g',
 						group = 'git',
-						expand = function ()
+						expand = function()
 							local gs = package.loaded.gitsigns
 							return {
-								{ 's', gs.stage_hunk, mode = 'n', desc = 'Stage Hunk' },
-								{ 'r', gs.reset_hunk, mode = 'n', desc = 'Reset Hunk' },
-								{ 's', function() gs.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end, mode = 'v', desc = 'Stage Hunk' },
-								{ 'r', function() gs.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end, mode = 'v', desc = 'Stage Hunk' },
-								{ 'u', gs.undo_stage_hunk, desc = 'Undo Stage Hunk' },
-								{ 'p', gs.preview_hunk, desc = 'Preview Hunk' },
+								{ 's', gs.stage_hunk,                                                       mode = 'n',              desc = 'Stage Hunk' },
+								{ 'r', gs.reset_hunk,                                                       mode = 'n',              desc = 'Reset Hunk' },
+								{ 's', function() gs.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end, mode = 'v',              desc = 'Stage Hunk' },
+								{ 'r', function() gs.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end, mode = 'v',              desc = 'Stage Hunk' },
+								{ 'u', gs.undo_stage_hunk,                                                  desc = 'Undo Stage Hunk' },
+								{ 'p', gs.preview_hunk,                                                     desc = 'Preview Hunk' },
 
-								{ 'S', gs.stage_buffer, mode = 'n', desc = 'Stage Buffer' },
-								{ 'R', gs.reset_buffer, mode = 'n', desc = 'Reset Buffer' },
+								{ 'S', gs.stage_buffer,                                                     mode = 'n',              desc = 'Stage Buffer' },
+								{ 'R', gs.reset_buffer,                                                     mode = 'n',              desc = 'Reset Buffer' },
 
-								{ 'b', gs.toggle_current_line_blame, mode = 'n', desc = 'Toggle Current Line Blame' },
+								{ 'b', gs.toggle_current_line_blame,                                        mode = 'n',              desc = 'Toggle Current Line Blame' },
 
-								{ 'd', gs.diffthis, mode = 'n', desc = 'Diff This' },
-								{ 'D', function() gs.diffthis('~') end, mode = 'n', desc = 'Diff This' },
+								{ 'd', gs.diffthis,                                                         mode = 'n',              desc = 'Diff This' },
+								{ 'D', function() gs.diffthis('~') end,                                     mode = 'n',              desc = 'Diff This' },
 							}
 						end
 					},
