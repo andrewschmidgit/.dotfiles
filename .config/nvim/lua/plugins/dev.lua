@@ -1,6 +1,15 @@
 return {
-	{ 'numToStr/Comment.nvim',    opts = {} },
-	{ 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
+	{ 'numToStr/Comment.nvim', opts = {} },
+	{
+		'folke/todo-comments.nvim',
+		dependencies = { 'nvim-lua/plenary.nvim' },
+		event = 'VeryLazy',
+		opts = {},
+		keys = {
+			{ ']t', function() require('todo-comments').jump_next() end, mode = 'n', desc = 'Next todo comment', },
+			{ '[t', function() require('todo-comments').jump_prev() end, mode = 'n', desc = 'Previous todo comment', }
+		}
+	},
 	{ -- Automatically add closing tags for HTML and JSX
 		'windwp/nvim-ts-autotag',
 		event = 'VeryLazy',
