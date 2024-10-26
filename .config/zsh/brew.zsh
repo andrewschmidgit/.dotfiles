@@ -3,3 +3,4 @@ if [ $(uname) != 'Darwin' ]; then
 fi
 
 export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/opt/homebrew/sbin:$PATH"
