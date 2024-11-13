@@ -38,6 +38,7 @@ return {
 					},
 				},
 				marksman = {},
+				pylsp = {},
 				rust_analyzer = {},
 				svelte = {},
 				terraformls = {},
