@@ -25,7 +25,10 @@ if [ -d "$DOTNET_ROOT" ]; then
 	export PATH=$DOTNET_INSTALL:$DOTNET_INSTALL/tools:$PATH
 fi
 
+if [ -d "/usr/local/go" ]; then
 	export PATH=$PATH:/usr/local/go/bin
+	export PATH=$PATH:~/go/bin
+fi
 # node
 export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
