@@ -21,9 +21,11 @@ if [ -d "$DOTNET_ROOT" ]; then
 	export DOTNET_CLI_TELEMETRY_OPTOUT=1
 	export DOTNET_ROOT
 	export DOTNET_INSTALL=$HOME/.dotnet
+	export DOTNET_ASPIRE_CONTAINER_RUNTIME=podman
 	export PATH=$DOTNET_INSTALL:$DOTNET_INSTALL/tools:$PATH
 fi
 
+	export PATH=$PATH:/usr/local/go/bin
 # node
 export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
