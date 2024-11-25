@@ -1,5 +1,6 @@
 return {
-	{ 'numToStr/Comment.nvim', opts = {} },
+	{ 'numToStr/Comment.nvim',            opts = {} },
+	{ 'Kicamon/markdown-table-mode.nvim', opts = {} },
 	{
 		'folke/todo-comments.nvim',
 		dependencies = { 'nvim-lua/plenary.nvim' },
@@ -93,7 +94,7 @@ return {
 		lazy = false,
 		keys = {
 			{
-				'<leader>f',
+				'<leader>ff',
 				function()
 					require('conform').format { async = true, lsp_fallback = true }
 				end,
