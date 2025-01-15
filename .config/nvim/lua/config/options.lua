@@ -1,45 +1,26 @@
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+local opt = vim.opt
 
--- make tabs appear as 4 spaces
-vim.o.tabstop = 4
+-- shows preview of substitute command
+opt.inccommand = 'split'
 
--- use a tab character when indenting
-vim.o.shiftwidth = 4
+opt.smartcase = true
+opt.ignorecase = true
 
--- enable line numbers
-vim.wo.number = true
+opt.number = true
+opt.relativenumber = true
 
--- enable relative line numbers
-vim.wo.relativenumber = true
+opt.signcolumn = 'yes'
+opt.showmode = false
 
--- try to have 8 rows of offset
-vim.opt.scrolloff = 8
+opt.shiftwidth = 4
+opt.tabstop = 4
 
--- enable mouse
-vim.o.mouse = "a"
+opt.splitright = true
+opt.splitbelow = true
 
--- sync clipboard
-vim.o.clipboard = "unnamedplus"
+opt.clipboard = "unnamedplus"
 
--- save undo history
-vim.o.undofile = true
+opt.termguicolors = true
 
--- better case-sensitivity
-vim.o.ignorecase = true
-vim.o.smartcase = true
-
--- break indent
-vim.o.breakindent = true
-
--- keep signcolumn on
-vim.wo.signcolumn = "yes"
-
--- decrease update time
-vim.o.updatetime = 250
-vim.o.timeoutlen = 300
-
--- make completeopt better
-vim.o.completeopt = "menuone,noselect"
-
-vim.opt.termguicolors = true
+-- undo history after nvim restart
+opt.undofile = true
