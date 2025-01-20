@@ -48,12 +48,13 @@ local function toggle_floatterm()
 		if vim.bo[state.buf].buftype ~= 'terminal' then
 			vim.cmd.terminal()
 		end
+		vim.cmd('startinsert')
 	else
 		vim.api.nvim_win_hide(state.win)
 	end
 end
 
-vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', {})
-vim.keymap.set({ 'n', 't' }, '<leader>t', toggle_floatterm, {})
+vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Quick leave terminal mode' })
+vim.keymap.set({ 'n', 't' }, '<C-t>', toggle_floatterm, { desc = '[T]oggle floating terminal' })
 
 vim.api.nvim_create_user_command('Floaterm', toggle_floatterm, {})
