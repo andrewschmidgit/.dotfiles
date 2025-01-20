@@ -1,30 +1,31 @@
 #!/bin/sh
 
+command -v tmux >/dev/null || { echo "tmux not installed, exiting"; exit 1; }
+command -v fzf >/dev/null || { echo "fzf not installed, exiting"; exit 1; }
+
 if [ $# -eq 1 ]; then
     path=$1
 else
-    path=$(find ~/src ~/src/personal -maxdepth 2 -type d -name .git -exec dirname {} + -prune | fzf)
+    path=$(find ~/src ~/.dotfiles -maxdepth 2 -type d -name .git -exec dirname {} + -prune | fzf)
 fi
 
 if [ -z $path ]; then
     exit 0
 fi
 
-name="$(basename $path)"
-tmux_pids="$(pgrep -xf tmux)"
+name="$(basename $path | tr . _)"
 
-if [ -z "$TMUX" -a -z "$tmux_pids" ]; then
-    # -A: attaches if name already exists
-    # -c: uses a directory
-    # -s: gives the name for the session
-    tmux new-session -A -c $path -s $name
-    exit 0
+# Check if tmux session exists
+if ! tmux has-session -t "$name" 2>/dev/null; then
+    # If session doesn't exist, create it
+    tmux new-session -dc "$path" -s "$name"
 fi
 
-tmux has-session -t "$name"
-if [ $? -eq 0 ]; then
-    tmux switch-client -t $name
+# Check if we're inside a tmux session (TMUX variable is set)
+if [ -n "$TMUX" ]; then
+    # We are inside tmux, switch to the target session
+    tmux switch-client -t "$name" || { echo "Failed to switch to session"; exit 1; }
 else
-    tmux new-session -d -c $path -s $name
-    tmux switch-client -t $name
+    # Not inside tmux, try to attach to the session
+    tmux attach-session -t "$name" || { echo "Failed to attach to session"; exit 1; }
 fi
