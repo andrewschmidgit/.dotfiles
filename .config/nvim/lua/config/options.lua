@@ -20,6 +20,11 @@ opt.splitbelow = true
 
 opt.clipboard = "unnamedplus"
 
+opt.swapfile = false
+
+-- don't continue comments with 'o'
+opt.formatoptions:remove "o"
+
 opt.termguicolors = true
 
 -- undo history after nvim restart
