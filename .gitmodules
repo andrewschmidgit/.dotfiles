@@ -10,3 +10,6 @@
 [submodule "config/.config/tmux/plugins/tpm"]
 	path = config/.config/tmux/plugins/tpm
 	url = https://git::@github.com/tmux-plugins/tpm
+[submodule ".config/zsh/pure"]
+	path = .config/zsh/pure
+	url = https://github.com/sindresorhus/pure.git

@@ -5,6 +5,8 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export ZSH_CACHE_DIR="$XDG_CACHE_HOME/zsh"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
+skip_global_compinit=1
+
 # bin
 export PATH="$HOME/.local/bin:$PATH"
 
