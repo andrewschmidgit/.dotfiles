@@ -14,14 +14,14 @@ local function lsp_attach_callback(event)
 	map('<leader>cr', vim.lsp.buf.rename, '[R]e[n]ame')
 	map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
 
-	vim.api.nvim_create_autocmd("BufWritePre", {
-		-- 3
-		buffer = event.buf,
-		callback = function()
-			-- 4 + 5
-			vim.lsp.buf.format { async = false, id = event.data.client_id }
-		end,
-	})
+	-- vim.api.nvim_create_autocmd("BufWritePre", {
+	-- 	-- 3
+	-- 	buffer = event.buf,
+	-- 	callback = function()
+	-- 		-- 4 + 5
+	-- 		vim.lsp.buf.format { async = false, id = event.data.client_id }
+	-- 	end,
+	-- })
 end
 
 return {
@@ -48,37 +48,37 @@ return {
 			-- completions
 			'saghen/blink.cmp',
 		},
-		config = function()
+		opts = {
+			servers = {
+				bashls = {},
+				csharp_ls = {},
+				cssls = {},
+				emmet_language_server = {},
+				html = { },
+				jsonls = {},
+				lua_ls = {},
+				rust_analyzer = {},
+				svelte = {},
+				tailwindcss = {},
+				terraformls = {},
+				ts_ls = {}
+			}
+		},
+		config = function(_, opts)
 			vim.api.nvim_create_autocmd('LspAttach', {
 				group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
 				callback = lsp_attach_callback
 			})
 
-			local servers = {
-				bashls = true,
-				cssls = true,
-				html = true,
-				htmx = true,
-				jsonls = true,
-				lua_ls = true,
-				rust_analyzer = true,
-				svelte = true,
-				tailwindcss = true,
-				terraformls = true,
-				ts_ls = true
-			}
-
 			require('mason').setup()
-			require('mason-tool-installer').setup { ensure_installed = vim.tbl_keys(servers) }
+			require('mason-tool-installer').setup { ensure_installed = vim.tbl_keys(opts.servers) }
 
-			for name, config in pairs(servers) do
-				if config == true then
-					config = {}
-				end
+			local lspconfig = require('lspconfig')
+			local blink = require('blink.cmp')
+			for server, config in pairs(opts.servers) do
+				config.capabilities = blink.get_lsp_capabilities(config.capabilities)
 
-				config.capabilities = require('blink.cmp').get_lsp_capabilities(config.capabilities)
-
-				require('lspconfig')[name].setup(config)
+				lspconfig[server].setup(config)
 			end
 		end
 	}
