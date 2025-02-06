@@ -1,5 +1,5 @@
 return {
-  "stevearc/conform.nvim",
-  event = { "BufReadPre", "BufNewFile" },
-	opts={}
+	"stevearc/conform.nvim",
+	event = { "BufReadPre", "BufNewFile" },
+	opts = {}
 }
