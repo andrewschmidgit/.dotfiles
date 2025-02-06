@@ -6,6 +6,7 @@ configs.setup({
 		'dockerfile',
 		'html',
 		'javascript',
+		'just',
 		'lua',
 		'markdown',
 		'markdown_inline',
